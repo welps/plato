@@ -21,5 +21,5 @@ for name in "${@:-${!urls[@]}}" ; do
 	echo "Downloading ${name}."
 	[ -d "$name" ] || mkdir "$name"
 	url="${urls[$name]}"
-	wget -q -O - "$url" | tar -xz --strip-components 1 -C "$name"
+	wget -q -O "${name}.tar.gz" "$url"
 done
