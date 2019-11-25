@@ -26,7 +26,6 @@ case "$method" in
 		;;
 	slow)
 		cd thirdparty
-		./download.sh
 		./build.sh
 		cd ..
 		cd src/wrapper
