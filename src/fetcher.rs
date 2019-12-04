@@ -118,9 +118,9 @@ fn run() -> Result<(), Error> {
     let online = args.next()
                      .ok_or_else(|| format_err!("Missing argument: online status."))
                      .and_then(|v| v.parse::<bool>().map_err(Into::into))?;
-    let settings = load_toml::<Settings, _>(SETTINGS_PATH)
+    let settings: Settings = load_toml(SETTINGS_PATH)
                              .context("Can't load settings.")?;
-    let mut session = load_json::<Session, _>(SESSION_PATH)
+    let mut session: Session = load_json(SESSION_PATH)
                                 .unwrap_or_default();
     let signals = signal_receiver(LISTENED_SIGNALS)?;
 

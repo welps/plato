@@ -79,7 +79,7 @@ fn run() -> Result<(), Error> {
         if input_path.exists() {
             return Err(format_err!("File already exists: {}.", input_path.display()));
         } else {
-            save_json::<Metadata, _>(&vec![], input_path)?;
+            save_json(&vec![], input_path)?;
         }
     } else if matches.opt_present("I") {
         let metadata = load_json(input_path)?;

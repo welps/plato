@@ -47,13 +47,13 @@ pub fn trash(paths: &FnvHashSet<PathBuf>, context: &mut Context) -> Result<(), E
         fs::create_dir(&trash_path)?;
     }
 
-    let contents = load_json::<Trash, _>(&contents_path);
+    let contents = load_json(&contents_path);
 
     if contents.is_err() && contents_path.exists() {
         return Err(contents.unwrap_err());
     }
 
-    let mut contents = contents.unwrap_or_default();
+    let mut contents: Trash = contents.unwrap_or_default();
     let mut entries = Vec::new();
     let mut rng = thread_rng();
 
@@ -116,7 +116,7 @@ pub fn untrash(context: &mut Context) -> Result<(), Error> {
     let library_path = &context.settings.library_path;
     let trash_path = library_path.join(TRASH_NAME);
     let contents_path = trash_path.join(CONTENTS_NAME);
-    let mut contents = load_json::<Trash, _>(&contents_path)?;
+    let mut contents: Trash = load_json(&contents_path)?;
 
     if let Some(mut entries) = contents.pop_front() {
         while let Some(entry) = entries.pop() {
@@ -141,7 +141,7 @@ pub fn empty(context: &Context) -> Result<(), Error> {
     let library_path = &context.settings.library_path;
     let trash_path = library_path.join(TRASH_NAME);
     let contents_path = trash_path.join(CONTENTS_NAME);
-    let mut contents = load_json::<Trash, _>(&contents_path)?;
+    let mut contents: Trash = load_json(&contents_path)?;
 
     for entries in &contents {
         for entry in entries {

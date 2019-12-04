@@ -156,7 +156,7 @@ struct HistoryItem {
 
 fn build_context(fb: Box<dyn Framebuffer>) -> Result<Context, Error> {
     let path = Path::new(SETTINGS_PATH);
-    let settings = load_toml::<Settings, _>(path);
+    let settings = load_toml(path);
     let mut initial_run = false;
 
     if let Err(ref e) = settings {
@@ -167,10 +167,10 @@ fn build_context(fb: Box<dyn Framebuffer>) -> Result<Context, Error> {
         }
     }
 
-    let mut settings = settings.unwrap_or_default();
+    let mut settings: Settings = settings.unwrap_or_default();
 
     let path = settings.library_path.join(METADATA_FILENAME);
-    let mut metadata = load_json::<Metadata, _>(path)
+    let mut metadata: Metadata = load_json(path)
                                  .map_err(|e| eprintln!("Can't load metadata: {}", e))
                                  .or_else(|_| auto_import(&settings.library_path,
                                                           &Vec::new(),
@@ -519,7 +519,7 @@ pub fn run() -> Result<(), Error> {
                             context.shared = false;
                             Command::new("scripts/usb-disable.sh").status().ok();
                             let path = Path::new(SETTINGS_PATH);
-                            if let Ok(settings) = load_toml::<Settings, _>(path)
+                            if let Ok(settings) = load_toml(path)
                                                             .map_err(|e| eprintln!("Can't load settings: {}", e)) {
                                 context.settings = settings;
                             }
@@ -542,7 +542,7 @@ pub fn run() -> Result<(), Error> {
                                 tx.send(Event::Select(EntryId::Reboot)).ok();
                             }
                             let path = context.settings.library_path.join(&context.filename);
-                            let metadata = load_json::<Metadata, _>(path)
+                            let metadata: Metadata = load_json(path)
                                                      .map_err(|e| eprintln!("Can't load metadata: {}", e))
                                                      .unwrap_or_default();
                             if !metadata.is_empty() {

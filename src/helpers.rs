@@ -59,22 +59,22 @@ pub fn decode_entities(text: &str) -> Cow<str> {
     Cow::Owned(buf)
 }
 
-pub fn load_json<T, P: AsRef<Path>>(path: P) -> Result<T, Error> where for<'a> T: Deserialize<'a> {
+pub fn load_json<T>(path: impl AsRef<Path>) -> Result<T, Error> where for<'a> T: Deserialize<'a> {
     let file = File::open(path).context("Can't open file.")?;
     serde_json::from_reader(file).context("Can't parse file.").map_err(Into::into)
 }
 
-pub fn save_json<T, P: AsRef<Path>>(data: &T, path: P) -> Result<(), Error> where T: Serialize {
+pub fn save_json<T>(data: &T, path: impl AsRef<Path>) -> Result<(), Error> where T: Serialize {
     let file = File::create(path).context("Can't create data file.")?;
     serde_json::to_writer_pretty(file, data).context("Can't serialize data to file.").map_err(Into::into)
 }
 
-pub fn load_toml<T, P: AsRef<Path>>(path: P) -> Result<T, Error> where for<'a> T: Deserialize<'a> {
+pub fn load_toml<T>(path: impl AsRef<Path>) -> Result<T, Error> where for<'a> T: Deserialize<'a> {
     let s = fs::read_to_string(path).context("Can't read file.")?;
     toml::from_str(&s).context("Can't parse file.").map_err(Into::into)
 }
 
-pub fn save_toml<T, P: AsRef<Path>>(data: &T, path: P) -> Result<(), Error> where T: Serialize {
+pub fn save_toml<T>(data: &T, path: impl AsRef<Path>) -> Result<(), Error> where T: Serialize {
     let s = toml::to_string(data).context("Can't serialize data.")?;
     fs::write(path, &s).context("Can't write to file.").map_err(Into::into)
 }

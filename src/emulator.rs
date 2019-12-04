@@ -68,9 +68,9 @@ const DEFAULT_ROTATION: i8 = 1;
 const CLOCK_REFRESH_INTERVAL: Duration = Duration::from_secs(60);
 
 pub fn build_context(fb: Box<dyn Framebuffer>) -> Result<Context, Error> {
-    let settings = load_toml::<Settings, _>(SETTINGS_PATH)?;
+    let settings: Settings = load_toml(SETTINGS_PATH)?;
     let path = settings.library_path.join(METADATA_FILENAME);
-    let mut metadata = load_json::<Metadata, _>(path)?;
+    let mut metadata: Metadata = load_json(path)?;
     if settings.import.startup_trigger {
         let imported_metadata = auto_import(&settings.library_path,
                                             &metadata,

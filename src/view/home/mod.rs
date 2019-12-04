@@ -1253,7 +1253,7 @@ impl Home {
     }
 
     fn load(&mut self, filename: &PathBuf, hub: &Hub, context: &mut Context) {
-        let md = load_json::<Metadata, _>(context.settings.library_path.join(filename))
+        let md = load_json(context.settings.library_path.join(filename))
                            .map_err(|e| eprintln!("Can't load: {}", e));
         if let Ok(metadata) = md {
             let saved = save_json(&context.metadata,
@@ -1271,7 +1271,7 @@ impl Home {
     }
 
     fn reload(&mut self, hub: &Hub, context: &mut Context) {
-        let md = load_json::<Metadata, _>(context.settings.library_path.join(&context.filename))
+        let md = load_json(context.settings.library_path.join(&context.filename))
                            .map_err(|e| eprintln!("Can't load: {}", e));
         if let Ok(metadata) = md {
             context.metadata = metadata;
