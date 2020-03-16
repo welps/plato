@@ -1,4 +1,8 @@
 #! /usr/bin/env bash
+set -e 
+
+# Allow a specific package to be downloaded
+package=$2
 
 declare -A urls=(
 	# Compression
@@ -17,7 +21,7 @@ declare -A urls=(
 	["mupdf"]="https://mupdf.com/downloads/archive/mupdf-1.16.1-source.tar.gz"
 )
 
-for name in "${@:-${!urls[@]}}" ; do
+function download {
 	echo "Downloading ${name}."
 	if [ -d "$name" ]; then
 		git ls-files -o --directory -z "$name" | xargs -0 rm -rf
@@ -25,6 +29,20 @@ for name in "${@:-${!urls[@]}}" ; do
 		mkdir "$name"
 	fi
 	url="${urls[$name]}"
+
+	if [[ -z $url ]]; then
+		echo "No package URL found for ${name}" >&2
+	fi 
+
 	wget -q --show-progress -O "${name}.tgz" "$url"
 	tar -xz --strip-components 1 -C "$name" -f "${name}.tgz" && rm "${name}.tgz"
-done
+}
+
+if [[ -z $package ]]; then
+	for name in "${@:-${!urls[@]}}" ; do
+		download ${name}
+	done
+else 
+	download ${package}
+fi
+
