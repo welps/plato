@@ -34,6 +34,8 @@ Any 4.*X*.*Y* firmware, with *X* ≥ 6, will do.
 - Continuous fit-to-width zoom mode with line preserving cuts.
 - Rotate the screen (portrait ↔ landscape).
 - Adjust the contrast.
+- Retrieve articles from wallabag through the [built-in article fetcher](doc/ARTICLEFETCHER.md)
+- Roll your own [hook](doc/HOOKS.md) to retrieve content to display in plato or provide additional features
 
 [![Tn01](artworks/thumbnail01.png)](artworks/screenshot01.png) [![Tn02](artworks/thumbnail02.png)](artworks/screenshot02.png) [![Tn03](artworks/thumbnail03.png)](artworks/screenshot03.png) [![Tn04](artworks/thumbnail04.png)](artworks/screenshot04.png)
 
