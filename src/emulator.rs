@@ -275,6 +275,7 @@ fn main() -> Result<(), Error> {
 
     'outer: loop {
         if let Some(sdl_evt) = sdl_context.event_pump().unwrap().wait_event_timeout(20) {
+            println!("Received event: {:?}", sdl_evt);
             match sdl_evt {
                 SdlEvent::Quit { .. } |
                 SdlEvent::KeyDown { keycode: Some(Keycode::Escape), .. } => {
